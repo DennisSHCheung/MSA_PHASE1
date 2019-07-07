@@ -10,6 +10,8 @@ interface IState {
   filelength:number
   backgroundColor:string
   bodyColor:string
+  headerTextColor:string
+  dropTextColor:string
 }
 
 class App extends React.Component<{},IState> {
@@ -19,7 +21,9 @@ class App extends React.Component<{},IState> {
       this.state = {
         backgroundColor:"#202125",
         bodyColor:"#323639",
-        filelength:0,        
+        dropTextColor:"#eeeeee",
+        filelength:0,
+        headerTextColor:"#eeeeee",        
         result:"",        
       }
   }
@@ -29,10 +33,29 @@ class App extends React.Component<{},IState> {
   }
 
   public onClickRandom = () => {
+
     let randomColor = '#'+Math.floor(Math.random()*16777215).toString(16);
     this.setState({backgroundColor:randomColor});
-    randomColor = '#'+Math.floor(Math.random()*16777215).toString(16)
+
+    const headerText = this.hexComplement(randomColor);
+    this.setState({headerTextColor:headerText});    
+
+    randomColor = '#'+Math.floor(Math.random()*16777215).toString(16);
     this.setState({bodyColor:randomColor});
+    
+    const text = this.hexComplement(randomColor);
+    this.setState({dropTextColor:text});
+    
+  }
+
+  public hexComplement = (colour:any) => {
+    const r = colour.replace("#", "");
+    const s = r.split("");
+    let str = s.map((c:any) => {
+      return (15 - parseInt(c, 16)).toString(16);
+    })
+    str = '#' + str.join("");
+    return str;
   }
 
   public render() {
@@ -40,8 +63,8 @@ class App extends React.Component<{},IState> {
     return (
       <div style={style}>
         <Button click={this.onClickRandom}/>
-        <Header />
-        <DropArea setResults={this.resultstate} backgroundColor={this.state.backgroundColor}/>
+        <Header headerColor={this.state.headerTextColor}/>
+        <DropArea setResults={this.resultstate} backgroundColor={this.state.backgroundColor} textColor={this.state.dropTextColor}/>
         <Result result={this.state.result} filelength={this.state.filelength} />
       </div>
     );

@@ -10,6 +10,7 @@ interface IState {
 interface IProps{
     setResults:any
     backgroundColor:string
+    textColor:string
 }
 
 export default class DropArea extends React.Component<IProps, IState> {
@@ -71,6 +72,7 @@ export default class DropArea extends React.Component<IProps, IState> {
 
     public render() {
         const style = { backgroundColor: this.props.backgroundColor }; // this.props.backgroundColor
+        const textStyle = { color: this.props.textColor };
         return (
             <div className="cont">
                 <div className="centreText">
@@ -80,7 +82,7 @@ export default class DropArea extends React.Component<IProps, IState> {
                                 {
                                     this.state.imageFiles.length > 0 ?
                                         <div>{this.state.imageFiles.map((file) => <img className="image1" key={file.name} src={file.preview} />)}</div> :
-                                        <p>Try dropping some files here, or click to select files to upload.</p>
+                                        <p style={textStyle}>Try dropping some files here, or click to select files to upload.</p>
                                 }
                             </div>
                         </ReactDropzone>
